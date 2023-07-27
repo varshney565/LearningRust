@@ -19,7 +19,7 @@ pub fn method1(){
 fn go(st : &String)-> usize {
     let mut i = 0;
     for element in st.chars(){
-        if(element == ' '){
+        if element == ' ' {
             return i;
         }
         i = i+1;
@@ -38,14 +38,14 @@ pub fn method2(){
     //what if i try to access 'r' at this point ???
     //it will give me error, WHY ????
     //it is just because 'r' is immutable reference
-    
+
     // println!("{}",r);---> this line will give error
 }
 
 fn goo(st : &String) -> &str{
     let mut i = 0;
     for element in st.chars(){
-        if(element == ' '){
+        if element == ' ' {
             return &st[..i];
         }
         i = i+1;
