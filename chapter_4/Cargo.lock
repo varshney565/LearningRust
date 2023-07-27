@@ -3,5 +3,12 @@
 version = 3
 
 [[package]]
+name = "chapter_3"
+version = "0.1.0"
+
+[[package]]
 name = "chapter_4"
 version = "0.1.0"
+dependencies = [
+ "chapter_3",
+]
