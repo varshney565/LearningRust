@@ -1,0 +1,1 @@
+/home/user/Desktop/LearningRust/chapter_5/target/debug/chapter_5: /home/user/Desktop/LearningRust/chapter_5/src/main.rs /home/user/Desktop/LearningRust/chapter_5/src/method_syntax.rs /home/user/Desktop/LearningRust/chapter_5/src/rectangle.rs /home/user/Desktop/LearningRust/chapter_5/src/user.rs
