@@ -1,0 +1,1 @@
+/home/user/Desktop/LearningRust/chapter_7/target/debug/main: /home/user/Desktop/LearningRust/chapter_7/src/bin/main.rs /home/user/Desktop/LearningRust/chapter_7/src/bin/temp/mod.rs /home/user/Desktop/LearningRust/chapter_7/src/lib.rs /home/user/Desktop/LearningRust/chapter_7/src/module1.rs /home/user/Desktop/LearningRust/chapter_7/src/module2/mod.rs
