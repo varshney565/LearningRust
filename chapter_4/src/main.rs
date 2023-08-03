@@ -1,8 +1,6 @@
-mod slicing;
-mod borrowing;
-mod ownership;
-mod ownership_functions;
-mod dangling_pointer;
+use chapter_4::ownership;
+use chapter_4::borrowing;
+use chapter_4::slicing;
 fn main() {
     ownership::ownership_concept();
     borrowing::borrowing_concept();
