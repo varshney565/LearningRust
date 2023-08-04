@@ -34,6 +34,7 @@ pub fn stringUse(){
 
     //bytes format
     let s5 = String::from("नमस्ते");
+    println!("Length of the string : {}",s5.len());
     for b in s5.bytes() {
         print!("{b} ");
     }
