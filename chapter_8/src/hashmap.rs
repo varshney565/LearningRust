@@ -19,4 +19,13 @@ pub fn hashmapUse(){
 
     //Option<> will always take the padding
     //because None will always take the padding
+
+    for (key,value) in &scores {
+        println!("{} {}",key,value);
+    }
+
+    let t = scores.entry("Blue".to_string()).or_insert(12);
+    println!("{:?}",t);
+    *t += 1;
+    println!("{:?}",t);
 }
