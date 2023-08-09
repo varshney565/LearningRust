@@ -23,5 +23,7 @@ fn c(){
         Ok(s) => println!("{s}"),
         Err(error) => println!("Error")
     }
-    // recover_error::use_it();
+    //those below lines will be executed even if there is any error in the above lines.
+    recover_error::use_it();
+    println!("Yes");
 }

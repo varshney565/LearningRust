@@ -3,6 +3,7 @@ use std::io::ErrorKind;
 use std::io::Read;
 use std::io;
 
+//instead of handling the error we are simply returning the error.
 pub fn error_propogation() -> Result<String,io::Error>{
     //? --> it will return the content of the file in case of no error
     //      else return Error in case of error
