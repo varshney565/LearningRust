@@ -20,14 +20,21 @@ fn get_largest<T:std::cmp::Ord>(arr : &Vec<T>) -> &T {
 }
 
 #[derive(Debug)]
-struct Point<T,P> where T : Copy{
+struct Point<T,P> where T : Copy,P : Copy{
     x : T,
     y : P
 }
 
-impl<T,P> Point<T,P> where T : Copy{
+impl<T,P> Point<T,P> where T : Copy,P : Copy{
     fn x(&self) -> T{
         self.x
+    }
+
+    fn mixup<U,W>(&self,other : &Point<U,W>) -> Point<T,W> where U : Copy,W : Copy{
+        Point{
+            x:self.x,
+            y:other.y
+        }
     }
 }
 
@@ -59,7 +66,16 @@ pub fn generics_use(){
     let ans = get_largest(&k);
     println!("Largest element of vector : {:?} is {}",k,ans);
 
-    let p1 = Point{x : 1,y : 2.3};
+    //struct 
+    let p1 = Point{x : "shivam",y : 2.3};
+    let p2 = Point{x : 45 , y : "varshney"};
+    let _point3 = p1.mixup(&p2);
     println!("point : {:?}",p1);
-    println!("calling method : {}",p1.x());
+    println!("calling method x : {}",p1.x());
+    println!("point : {:?}",p2);
+    println!("point : {:?}",_point3);
 }
+
+
+//at compile time rust will automatically replace the <Type> with 
+//corrosponding types that are used in the program
