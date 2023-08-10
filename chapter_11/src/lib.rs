@@ -86,11 +86,21 @@ mod tests{
     }
 
     #[test]
+    #[ignore]
     fn test_result_return_error()-> Result<(),String> {
-        if(2 + 2 == 4) {
+        if 2 + 2 == 4 {
             Ok(())
         }else{
             Err(String::from("Error !!"))
         }
     }
 }
+
+
+//cargo test -- --show-output
+//cargo test -- --test-threads=1
+//cargo test test_name
+//cargo test "it"                       --> it will test all tests containing 'it'
+//cargo test tests::                    --> runs all the tests inside tests module
+//cargo test -- --ignored               --> only ignored tests will run
+//submodule can call private functions of the outer module.
