@@ -4,7 +4,7 @@ struct employee {
 
 
 pub trait employee{
-
+    
 }
 
 
