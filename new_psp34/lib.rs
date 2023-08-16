@@ -138,36 +138,20 @@ pub mod new_psp34 {
         }
         pub fn _emit_remove_token_uri_event(&self, _id: Id) {}
 
-        // #[ink(message)]
-        // #[openbrush::modifiers(only_owner)]
-        // pub fn mint(&mut self, account: AccountId, _token_uri: String) -> Result<(), PSP34Error> {
-        //     self.set_token_uri(Id::U32(self.next_id), _token_uri);
-        //     self._mint_to(account, Id::U32(self.next_id));
-        //     self.next_id += 1;
-        //     Ok(())
-        // }
-
         #[ink(message)]
         #[openbrush::modifiers(only_owner)]
         pub fn mint(&mut self, account: AccountId, _token_uri: String) -> Result<(), PSP34Error> {
-            // let res = self._mint_to(account, Id::U32(self.next_id));
-            // match(res){
-            //     Ok(())=>{
-            //         self.set_token_uri(Id::U32(self.next_id), _token_uri);
-            //         self.next_id += 1;
-            //         return Ok(())
-            //     },
-            //     Err(err)=>{
-            //         return Err(err)
-            //     }
-            // }
-
-            self.set_token_uri(Id::U32(self.next_id), _token_uri);
-            println!("\n\n\n\n{}\n\n\n\n","demo");
-            let r = self._mint_to(account, Id::U32(self.next_id));
-            println!("\n\n\n\n{:?}\n\n\n\n",r);
-            self.next_id += 1;
-            Ok(())
+            let res = self._mint_to(account, Id::U32(self.next_id));
+            match(res){
+                Ok(())=>{
+                    self.set_token_uri(Id::U32(self.next_id), _token_uri);
+                    self.next_id += 1;
+                    return Ok(())
+                },
+                Err(err)=>{
+                    return Err(err)
+                }
+            }
         }
 
         fn set_token_uri(&mut self, id: Id, _token_uri: String) -> Result<(), PSP34Error> {
@@ -185,7 +169,6 @@ pub mod new_psp34 {
         fn remove_token_uri(&mut self, id: Id) -> Result<(), PSP34Error> {
             self.token_uris.remove(&id);
             self._emit_remove_token_uri_event(id);
-
             Ok(())
         }
 
@@ -212,7 +195,6 @@ pub mod new_psp34 {
 
         use super::*;
 
-        #[ignore]
         #[ink::test]
         fn mint_test_success(){
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
@@ -246,19 +228,19 @@ pub mod new_psp34 {
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
             let mut contract = Contract::new();
             let uri: Vec<u8> = "SMAPLE_URI".into();
-            ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
+            ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.charlie);
 
             //minting
-            let mut result = contract.mint(accounts.alice, uri.clone());
+            let mut result = contract.mint(accounts.bob, uri.clone());
             match(result){
-                Ok(()) => {},
+                Ok(()) => {assert!(false);},
                 Err(err) => {
                     assert!(true);
+                    println!("{:?}",err);
                 }
             }
         }
 
-        #[ignore]
         #[ink::test]
         fn mint_test_fail_token_already_there(){
             let mut contract = Contract::new();
@@ -278,7 +260,6 @@ pub mod new_psp34 {
             }
         }
 
-        #[ignore]
         #[ink::test] 
         fn burn_no_such_token(){
             let mut contract = Contract::new();
@@ -292,7 +273,6 @@ pub mod new_psp34 {
             }
         }
 
-        #[ignore]
         #[ink :: test]
         fn burn_not_approved(){
             let mut contract = Contract::new();
@@ -320,7 +300,6 @@ pub mod new_psp34 {
             }
         }
 
-        #[ignore]
         #[ink::test]
         fn burn_success_owner_call(){
             let mut contract = Contract::new();
@@ -347,7 +326,6 @@ pub mod new_psp34 {
             }
         }
 
-        #[ignore]
         #[ink::test]
         fn burn_success_operator_call(){
             let mut contract = Contract::new();
@@ -378,7 +356,6 @@ pub mod new_psp34 {
             }
         }
 
-        #[ignore]
         #[ink :: test] 
         fn approve_test_success(){
             let mut contract = Contract::new();
@@ -405,12 +382,11 @@ pub mod new_psp34 {
             }
         }
 
-        #[ignore]
         #[ink :: test]
         fn approve_test_fail(){
             let mut contract = Contract::new();
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
-            let mut result = contract.mint(accounts.bob, "URI".into());
+            let result = contract.mint(accounts.bob, "URI".into());
             match(result){
                 Ok(()) => {
                     let res = contract.approve(accounts.charlie,Some(Id::U32(0)),true);
@@ -430,7 +406,6 @@ pub mod new_psp34 {
             }
         }
 
-        #[ignore]
         #[ink :: test]
         fn get_token_uri_test() {
             let mut contract = Contract::new();
