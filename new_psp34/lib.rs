@@ -9,7 +9,7 @@ pub mod new_psp34 {
     use openbrush::contracts::ownable::*;
     use openbrush::contracts::psp34::extensions::burnable::*;
     use openbrush::contracts::psp34::extensions::metadata::*;
-    use openbrush::contracts::psp34::extensions::mintable::*;
+    // use openbrush::contracts::psp34::extensions::mintable::*;
     use openbrush::storage::Mapping;
     use openbrush::traits::Storage;
     use openbrush::traits::String;
@@ -95,9 +95,17 @@ pub mod new_psp34 {
     impl PSP34Burnable for Contract {
         #[ink(message)]
         fn burn(&mut self, account: AccountId, id: Id) -> Result<(), PSP34Error> {
-            let owner = self.owner_of(id.clone()).unwrap();
+            let mut token = self.owner_of(id.clone());
+            let owner ;
+            match token{
+                Some(val)=>{ owner = val },
+                None => {
+                    return Err(PSP34Error::TokenNotExists);
+                }
+            }
+            
             let caller = self.env().caller();
-
+            
             if owner != caller && !self._allowance(&owner, &caller, &Some(&id)) {
                 return Err(PSP34Error::NotApproved);
             }
@@ -130,11 +138,34 @@ pub mod new_psp34 {
         }
         pub fn _emit_remove_token_uri_event(&self, _id: Id) {}
 
+        // #[ink(message)]
+        // #[openbrush::modifiers(only_owner)]
+        // pub fn mint(&mut self, account: AccountId, _token_uri: String) -> Result<(), PSP34Error> {
+        //     self.set_token_uri(Id::U32(self.next_id), _token_uri);
+        //     self._mint_to(account, Id::U32(self.next_id));
+        //     self.next_id += 1;
+        //     Ok(())
+        // }
+
         #[ink(message)]
         #[openbrush::modifiers(only_owner)]
         pub fn mint(&mut self, account: AccountId, _token_uri: String) -> Result<(), PSP34Error> {
+            // let res = self._mint_to(account, Id::U32(self.next_id));
+            // match(res){
+            //     Ok(())=>{
+            //         self.set_token_uri(Id::U32(self.next_id), _token_uri);
+            //         self.next_id += 1;
+            //         return Ok(())
+            //     },
+            //     Err(err)=>{
+            //         return Err(err)
+            //     }
+            // }
+
             self.set_token_uri(Id::U32(self.next_id), _token_uri);
-            self._mint_to(account, Id::U32(self.next_id));
+            println!("\n\n\n\n{}\n\n\n\n","demo");
+            let r = self._mint_to(account, Id::U32(self.next_id));
+            println!("\n\n\n\n{:?}\n\n\n\n",r);
             self.next_id += 1;
             Ok(())
         }
@@ -180,19 +211,259 @@ pub mod new_psp34 {
         use ink::primitives::AccountId;
 
         use super::*;
+
+        #[ignore]
         #[ink::test]
-        fn burn_test1(){
+        fn mint_test_success(){
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.alice);
+            let mut contract = Contract::new();
+            let uri: Vec<u8> = "SMAPLE_URI".into();
+
+            //minting
+            let mut result = contract.mint(accounts.bob, uri.clone());
+            match(result){
+                Ok(()) => {
+                    //check if next id is equal to 1 or not.
+                    assert_eq!(contract.next_id,1);
+                    //check if the token_uri is "SAMPLE_URI or not"
+                    let token_uri = contract.get_token_uri(Id::U32(0));
+                    assert_eq!(token_uri.unwrap_or_default(),uri.clone());
+                    //check if the token is minted to that address we have specified or not
+                    let ow = contract.owner_of(Id::U32(0)).unwrap();
+                    assert_eq!(ow,accounts.bob);
+                },
+                Err(err) => {
+                    //in case of error
+                    assert!(false,"Error while minting !!");
+                    println!("Some error while minting !! --> {:?}",err);
+                }
+            }
+        }
+
+        #[ink::test]
+        fn mint_test_success_only_owner_can_call(){
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let mut contract = Contract::new();
+            let uri: Vec<u8> = "SMAPLE_URI".into();
+            ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
+
+            //minting
+            let mut result = contract.mint(accounts.alice, uri.clone());
+            match(result){
+                Ok(()) => {},
+                Err(err) => {
+                    assert!(true);
+                }
+            }
+        }
+
+        #[ignore]
+        #[ink::test]
+        fn mint_test_fail_token_already_there(){
+            let mut contract = Contract::new();
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let uri : Vec<u8> = "SMAPLE_URI".into();
+            //minting
+            let mut result = contract.mint(accounts.alice, uri.clone());
+            //error i am minting the same token again
+            result = contract._mint_to(accounts.alice,Id::U32(0));
+            match(result){
+                Ok(()) => {},
+                Err(err) => {
+                    if let err = PSP34Error::TokenExists{
+                        assert!(true);
+                    }
+                }
+            }
+        }
+
+        #[ignore]
+        #[ink::test] 
+        fn burn_no_such_token(){
             let mut contract = Contract::new();
             let mock_account_id: AccountId = [0x42; 32].into();
-            //assuming mint is working perfectly fine !!
-            contract.mint(mock_account_id, "SMAPLE_URI")
-            .expect("Can mint");
-            //three cases
-            //first --> 
+            let k = contract.burn(mock_account_id,Id::U32(10));
+            match(k){
+                Ok(()) => {},
+                Err(err) => {
+                    assert_eq!(PSP34Error::TokenNotExists,err,"Some Unknown Error while burning !!");
+                }
+            }
+        }
 
-            //second --> 
+        #[ignore]
+        #[ink :: test]
+        fn burn_not_approved(){
+            let mut contract = Contract::new();
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let uri : Vec<u8> = "SMAPLE_URI".into();
+            let mut result = contract.mint(accounts.alice, uri.clone());
+            match(result){
+                Ok(())=>{
+                    let ow = accounts.alice;
+                    ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
+                    let res = contract.burn(ow,Id::U32(0));
+                    match(res){
+                        Ok(()) => {
+                            assert!(false,"Everyone is able to burn !!");
+                        },
+                        Err(err) => {
+                            assert!(true,"Not approved !!");
+                        }
+                    }
+                },
+                Err(err) => {
+                    assert!(false,"Some Error while minting !!");
+                    println!("Some Error while Minting !!");
+                }
+            }
+        }
+
+        #[ignore]
+        #[ink::test]
+        fn burn_success_owner_call(){
+            let mut contract = Contract::new();
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let uri : Vec<u8> = "SMAPLE_URI".into();
+            let mut result = contract.mint(accounts.alice, uri.clone());
+            match(result){
+                Ok(()) => {
+                    let res = contract.burn(accounts.alice,Id::U32(0));
+                    match(res){
+                        Ok(()) => {
+                            assert!(true,"Successful burn !!");
+                        },
+                        Err(err) => {
+                            assert!(false,"Owner is not able to burn !!");
+                            println!("{:?}",err);
+                        }
+                    }
+                },
+                Err(err) => {
+                    assert!(false,"Error while minting !!");
+                    println!("Error while minting,{:?} !!",err);
+                }
+            }
+        }
+
+        #[ignore]
+        #[ink::test]
+        fn burn_success_operator_call(){
+            let mut contract = Contract::new();
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let uri : Vec<u8> = "SMAPLE_URI".into();
+            let mut result = contract.mint(accounts.alice, uri.clone());
+            match(result){
+                Ok(()) => {
+                    //give the access to bob on behalf of alice
+                    let k = contract.approve(accounts.bob,Some(Id::U32(0)),true);
+                    
+                    ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
+                    let res = contract.burn(accounts.alice,Id::U32(0));
+                    match(res){
+                        Ok(()) => {
+                            assert!(true);
+                        },
+                        Err(err) => {
+                            assert!(false,"Operator is not able to burn !!");
+                            println!("{:?}",err);
+                        }
+                    }
+                },
+                Err(err) => {
+                    assert!(false,"Error while minting !!");
+                    println!("Error while minting,{:?} !!",err);
+                }
+            }
+        }
+
+        #[ignore]
+        #[ink :: test] 
+        fn approve_test_success(){
+            let mut contract = Contract::new();
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let mut result = contract.mint(accounts.bob, "URI".into());
+            match(result){
+                Ok(()) => {
+                    ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
+                    let res = contract.approve(accounts.charlie,Some(Id::U32(0)),true);
+                    match(res){
+                        Ok(())=>{
+                            assert!(contract.allowance(accounts.bob,accounts.charlie,Some(Id::U32(0))),"Error while approving !!");
+                        },
+                        Err(err)=>{
+                            assert!(false,"Error while approving !!");
+                            println!("{:?}",err);
+                        }
+                    }
+                },
+                Err(err) => {
+                    assert!(false,"Some error while minting !!");
+                    println!("{:?}",err);
+                }
+            }
+        }
+
+        #[ignore]
+        #[ink :: test]
+        fn approve_test_fail(){
+            let mut contract = Contract::new();
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let mut result = contract.mint(accounts.bob, "URI".into());
+            match(result){
+                Ok(()) => {
+                    let res = contract.approve(accounts.charlie,Some(Id::U32(0)),true);
+                    match(res){
+                        Ok(())=>{
+                            assert!(false,"Error,Token owner is not approving but still getting approved !!");
+                        },
+                        Err(err)=>{
+                            assert!(true);
+                        }
+                    }
+                },
+                Err(err) => {
+                    assert!(false,"Some error while minting !!");
+                    println!("{:?}",err);
+                }
+            }
+        }
+
+        #[ignore]
+        #[ink :: test]
+        fn get_token_uri_test() {
+            let mut contract = Contract::new();
+            let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
+            let mut result = contract.mint(accounts.bob, "URI".into());
+            match(result){
+                Ok(()) => {
+                    //case when token is present
+                    let token = contract.get_token_uri(Id::U32(0));
+                    match(token){
+                        Some(t)=>{
+                            assert!(true);
+                        },
+                        None=>{
+                            assert!(false,"Error while fetching the token uri !");
+                        }
+                    }
+                    //case when token is not present
+                    let token = contract.get_token_uri(Id::U32(10));
+                    match(token){
+                        Some(t)=>{
+                            assert!(false,"Getting URI of token which does't exist !!");
+                        },
+                        None=>{
+                            assert!(true);
+                        }
+                    }
+                },
+                Err(err) => {
+                    assert!(false,"Some error while minting !!");
+                    println!("{:?}",err);
+                }
+            }
         }
     }
 }
-
-

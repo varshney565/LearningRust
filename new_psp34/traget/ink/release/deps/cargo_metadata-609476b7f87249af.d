@@ -1,0 +1,11 @@
+/home/user/Desktop/LearningRust/new_psp34/target/ink/release/deps/cargo_metadata-609476b7f87249af.rmeta: /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/lib.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/dependency.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/diagnostic.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/errors.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/messages.rs
+
+/home/user/Desktop/LearningRust/new_psp34/target/ink/release/deps/libcargo_metadata-609476b7f87249af.rlib: /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/lib.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/dependency.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/diagnostic.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/errors.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/messages.rs
+
+/home/user/Desktop/LearningRust/new_psp34/target/ink/release/deps/cargo_metadata-609476b7f87249af.d: /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/lib.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/dependency.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/diagnostic.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/errors.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/messages.rs
+
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/lib.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/dependency.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/diagnostic.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/errors.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cargo_metadata-0.13.1/src/messages.rs:

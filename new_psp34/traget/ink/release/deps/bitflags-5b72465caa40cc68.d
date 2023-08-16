@@ -1,0 +1,13 @@
+/home/user/Desktop/LearningRust/new_psp34/target/ink/release/deps/bitflags-5b72465caa40cc68.rmeta: /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/lib.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/iter.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/parser.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/traits.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/public.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/internal.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/external.rs
+
+/home/user/Desktop/LearningRust/new_psp34/target/ink/release/deps/libbitflags-5b72465caa40cc68.rlib: /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/lib.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/iter.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/parser.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/traits.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/public.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/internal.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/external.rs
+
+/home/user/Desktop/LearningRust/new_psp34/target/ink/release/deps/bitflags-5b72465caa40cc68.d: /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/lib.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/iter.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/parser.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/traits.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/public.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/internal.rs /home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/external.rs
+
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/lib.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/iter.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/parser.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/traits.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/public.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/internal.rs:
+/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/bitflags-2.3.3/src/external.rs:

@@ -1,0 +1,13 @@
+/home/user/Desktop/LearningRust/new_psp34/target/debug/deps/obce_codegen-5d6c20c418008150.rmeta: /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/lib.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/definition.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/error.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/implementation.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/mock.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/types.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/utils.rs
+
+/home/user/Desktop/LearningRust/new_psp34/target/debug/deps/libobce_codegen-5d6c20c418008150.rlib: /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/lib.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/definition.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/error.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/implementation.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/mock.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/types.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/utils.rs
+
+/home/user/Desktop/LearningRust/new_psp34/target/debug/deps/obce_codegen-5d6c20c418008150.d: /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/lib.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/definition.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/error.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/implementation.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/mock.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/types.rs /home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/utils.rs
+
+/home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/lib.rs:
+/home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/definition.rs:
+/home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/error.rs:
+/home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/implementation.rs:
+/home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/mock.rs:
+/home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/types.rs:
+/home/user/.cargo/git/checkouts/obce-633ec9403b524075/d452f6e/codegen/src/utils.rs:
