@@ -95,7 +95,7 @@ pub mod new_psp34 {
     impl PSP34Burnable for Contract {
         #[ink(message)]
         fn burn(&mut self, account: AccountId, id: Id) -> Result<(), PSP34Error> {
-            let mut token = self.owner_of(id.clone());
+            let token = self.owner_of(id.clone());
             let owner ;
             match token{
                 Some(val)=>{ owner = val },
@@ -109,7 +109,11 @@ pub mod new_psp34 {
             if owner != caller && !self._allowance(&owner, &caller, &Some(&id)) {
                 return Err(PSP34Error::NotApproved);
             }
-            self.remove_token_uri(id.clone());
+            let res = self.remove_token_uri(id.clone());
+            match res {
+                Ok(()) => {},
+                Err(err) => {return Err(err);}
+            }
             self._burn_from(account, id)
         }
     }
@@ -142,9 +146,13 @@ pub mod new_psp34 {
         #[openbrush::modifiers(only_owner)]
         pub fn mint(&mut self, account: AccountId, _token_uri: String) -> Result<(), PSP34Error> {
             let res = self._mint_to(account, Id::U32(self.next_id));
-            match(res){
+            match res{
                 Ok(())=>{
-                    self.set_token_uri(Id::U32(self.next_id), _token_uri);
+                    let res = self.set_token_uri(Id::U32(self.next_id), _token_uri);
+                    match res{
+                        Ok(()) => {},
+                        Err(err) => {return Err(err);}
+                    }
                     self.next_id += 1;
                     return Ok(())
                 },
@@ -203,8 +211,8 @@ pub mod new_psp34 {
             let uri: Vec<u8> = "SMAPLE_URI".into();
 
             //minting
-            let mut result = contract.mint(accounts.bob, uri.clone());
-            match(result){
+            let result = contract.mint(accounts.bob, uri.clone());
+            match result{
                 Ok(()) => {
                     //check if next id is equal to 1 or not.
                     assert_eq!(contract.next_id,1);
@@ -231,8 +239,8 @@ pub mod new_psp34 {
             ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.charlie);
 
             //minting
-            let mut result = contract.mint(accounts.bob, uri.clone());
-            match(result){
+            let result = contract.mint(accounts.bob, uri.clone());
+            match result{
                 Ok(()) => {assert!(false);},
                 Err(err) => {
                     assert!(true);
@@ -247,13 +255,13 @@ pub mod new_psp34 {
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
             let uri : Vec<u8> = "SMAPLE_URI".into();
             //minting
-            let mut result = contract.mint(accounts.alice, uri.clone());
+            let _result = contract.mint(accounts.alice, uri.clone());
             //error i am minting the same token again
-            result = contract._mint_to(accounts.alice,Id::U32(0));
-            match(result){
+            let result = contract._mint_to(accounts.alice,Id::U32(0));
+            match result{
                 Ok(()) => {},
                 Err(err) => {
-                    if let err = PSP34Error::TokenExists{
+                    if err == PSP34Error::TokenExists{
                         assert!(true);
                     }
                 }
@@ -264,8 +272,8 @@ pub mod new_psp34 {
         fn burn_no_such_token(){
             let mut contract = Contract::new();
             let mock_account_id: AccountId = [0x42; 32].into();
-            let k = contract.burn(mock_account_id,Id::U32(10));
-            match(k){
+            let res = contract.burn(mock_account_id,Id::U32(10));
+            match res{
                 Ok(()) => {},
                 Err(err) => {
                     assert_eq!(PSP34Error::TokenNotExists,err,"Some Unknown Error while burning !!");
@@ -278,22 +286,22 @@ pub mod new_psp34 {
             let mut contract = Contract::new();
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
             let uri : Vec<u8> = "SMAPLE_URI".into();
-            let mut result = contract.mint(accounts.alice, uri.clone());
-            match(result){
+            let result = contract.mint(accounts.alice, uri.clone());
+            match result{
                 Ok(())=>{
-                    let ow = accounts.alice;
+                    let owner = accounts.alice;
                     ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
-                    let res = contract.burn(ow,Id::U32(0));
-                    match(res){
+                    let res = contract.burn(owner,Id::U32(0));
+                    match res{
                         Ok(()) => {
                             assert!(false,"Everyone is able to burn !!");
                         },
-                        Err(err) => {
+                        Err(_) => {
                             assert!(true,"Not approved !!");
                         }
                     }
                 },
-                Err(err) => {
+                Err(_) => {
                     assert!(false,"Some Error while minting !!");
                     println!("Some Error while Minting !!");
                 }
@@ -305,11 +313,11 @@ pub mod new_psp34 {
             let mut contract = Contract::new();
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
             let uri : Vec<u8> = "SMAPLE_URI".into();
-            let mut result = contract.mint(accounts.alice, uri.clone());
-            match(result){
+            let result = contract.mint(accounts.alice, uri.clone());
+            match result{
                 Ok(()) => {
                     let res = contract.burn(accounts.alice,Id::U32(0));
-                    match(res){
+                    match res{
                         Ok(()) => {
                             assert!(true,"Successful burn !!");
                         },
@@ -331,15 +339,15 @@ pub mod new_psp34 {
             let mut contract = Contract::new();
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
             let uri : Vec<u8> = "SMAPLE_URI".into();
-            let mut result = contract.mint(accounts.alice, uri.clone());
-            match(result){
+            let result = contract.mint(accounts.alice, uri.clone());
+            match result{
                 Ok(()) => {
                     //give the access to bob on behalf of alice
-                    let k = contract.approve(accounts.bob,Some(Id::U32(0)),true);
+                    let _res = contract.approve(accounts.bob,Some(Id::U32(0)),true);
                     
                     ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
                     let res = contract.burn(accounts.alice,Id::U32(0));
-                    match(res){
+                    match res{
                         Ok(()) => {
                             assert!(true);
                         },
@@ -360,12 +368,12 @@ pub mod new_psp34 {
         fn approve_test_success(){
             let mut contract = Contract::new();
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
-            let mut result = contract.mint(accounts.bob, "URI".into());
-            match(result){
+            let result = contract.mint(accounts.bob, "URI".into());
+            match result{
                 Ok(()) => {
                     ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.bob);
                     let res = contract.approve(accounts.charlie,Some(Id::U32(0)),true);
-                    match(res){
+                    match res{
                         Ok(())=>{
                             assert!(contract.allowance(accounts.bob,accounts.charlie,Some(Id::U32(0))),"Error while approving !!");
                         },
@@ -387,14 +395,14 @@ pub mod new_psp34 {
             let mut contract = Contract::new();
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
             let result = contract.mint(accounts.bob, "URI".into());
-            match(result){
+            match result{
                 Ok(()) => {
                     let res = contract.approve(accounts.charlie,Some(Id::U32(0)),true);
-                    match(res){
+                    match res{
                         Ok(())=>{
                             assert!(false,"Error,Token owner is not approving but still getting approved !!");
                         },
-                        Err(err)=>{
+                        Err(_)=>{
                             assert!(true);
                         }
                     }
@@ -410,13 +418,13 @@ pub mod new_psp34 {
         fn get_token_uri_test() {
             let mut contract = Contract::new();
             let accounts = ink::env::test::default_accounts::<ink::env::DefaultEnvironment>();
-            let mut result = contract.mint(accounts.bob, "URI".into());
-            match(result){
+            let result = contract.mint(accounts.bob, "URI".into());
+            match result{
                 Ok(()) => {
                     //case when token is present
                     let token = contract.get_token_uri(Id::U32(0));
-                    match(token){
-                        Some(t)=>{
+                    match token{
+                        Some(_)=>{
                             assert!(true);
                         },
                         None=>{
@@ -425,8 +433,8 @@ pub mod new_psp34 {
                     }
                     //case when token is not present
                     let token = contract.get_token_uri(Id::U32(10));
-                    match(token){
-                        Some(t)=>{
+                    match token{
+                        Some(_)=>{
                             assert!(false,"Getting URI of token which does't exist !!");
                         },
                         None=>{
