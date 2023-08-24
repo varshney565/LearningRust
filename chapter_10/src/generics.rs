@@ -22,12 +22,12 @@ fn get_largest<T:std::cmp::Ord>(arr : &Vec<T>) -> &T {
 #[derive(Debug)]
 struct Point<T,P> where T : Copy,P : Copy{
     x : T,
-    y : P
+    y : P   
 }
 
 impl<T,P> Point<T,P> where T : Copy,P : Copy{
-    fn x(&self) -> T{
-        self.x
+    fn x(&self) -> &T{
+        &self.x
     }
 
     fn mixup<U,W>(&self,other : &Point<U,W>) -> Point<T,W> where U : Copy,W : Copy{
