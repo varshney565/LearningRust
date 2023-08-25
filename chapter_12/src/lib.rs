@@ -14,7 +14,7 @@ impl Config {
         }
         let query = args[1].clone();
         let filename = args[2].clone();
-        let fetch_env = env :: var("CASE_INSENSITIVE");
+        let fetch_env = env :: var("i");
         let case_sensitive;
         match fetch_env {
             Ok(status) => {
