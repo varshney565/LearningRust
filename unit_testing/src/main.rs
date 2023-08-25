@@ -9,6 +9,10 @@ fn call_with_four(x: &impl MyTrait) -> u32 {
     x.foo(4)
 }
 
+fn main () {
+    
+}
+
 #[test]
 fn check() {
     let mut mock = MockMyTrait::new();
