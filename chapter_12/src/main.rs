@@ -9,12 +9,12 @@ fn main () {
         Ok(conf) => {
             let res = logic(&conf);
             if let Err(e) = res {
-                println!("{e}\n");
+                eprintln!("{e}\n");
                 process::exit(1);
             }
         },
         Err(str) => {
-            println!("\n{str}\n");
+            eprintln!("\n{str}\n");
             process::exit(1);
         }
     }
